@@ -32,8 +32,15 @@ import {
 import { HowToUseModal, TourOverlay, TOUR_STEPS } from './HelpGuide'
 import './App.css'
 
+const TOOLS = [
+  { id: 'json', label: 'JSON', ready: true },
+  { id: 'xml', label: 'XML', ready: false },
+  { id: 'yaml', label: 'YAML', ready: false },
+  { id: 'code', label: 'JS / HTML / CSS', ready: false },
+]
+
 const SAMPLE = `{
-  "name": "JSON Formatter",
+  "name": "A2Z Formatter",
   "version": 1.2,
   "active": true,
   "owner": null,
@@ -518,6 +525,7 @@ export default function App() {
   const [showHowTo, setShowHowTo] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [tourStep, setTourStep] = useState(null)
+  const [activeTool, setActiveTool] = useState('json')
   const fileInputRef = useRef(null)
 
   const startTour = useCallback(() => {
@@ -957,13 +965,32 @@ export default function App() {
   return (
     <div className={`app theme-${theme}`}>
       <header className="header">
-        <div className="brand">
-          <span className="brand-brace">{'{'}</span>
-          <span className="brand-name">JSON formatter</span>
-          <span className="brand-brace">{'}'}</span>
+        <div className="header-left">
+          <div className="brand">
+            <span className="brand-mark">A2Z</span>
+            <span className="brand-name">formatter</span>
+          </div>
+          <nav className="tool-tabs" aria-label="Formatter tools">
+            {TOOLS.map((tool) => (
+              <button
+                key={tool.id}
+                type="button"
+                className={`tool-tab ${activeTool === tool.id ? 'is-active' : ''} ${tool.ready ? '' : 'is-soon'}`}
+                onClick={() => {
+                  setActiveTool(tool.id)
+                  if (!tool.ready) {
+                    showStatus('ok', `${tool.label} formatter is coming soon`)
+                  }
+                }}
+              >
+                {tool.label}
+                {!tool.ready && <span className="tool-soon">Soon</span>}
+              </button>
+            ))}
+          </nav>
         </div>
         <div className="header-right" data-tour="tour-header-actions">
-          {stats && (
+          {activeTool === 'json' && stats && (
             <div className="header-stats">
               <span>{stats.keys} keys</span>
               <span>{stats.objects} objs</span>
@@ -1039,6 +1066,7 @@ export default function App() {
         </div>
       )}
 
+      {activeTool === 'json' ? (
       <main className="workspace">
         <EditorPane
           title="Input"
@@ -1158,6 +1186,23 @@ export default function App() {
           diffRows={diffRows}
         />
       </main>
+      ) : (
+        <main className="coming-soon">
+          <div className="coming-soon-card">
+            <p className="coming-soon-eyebrow">A2Z Formatter</p>
+            <h1>
+              {TOOLS.find((t) => t.id === activeTool)?.label || 'Tool'} formatter
+            </h1>
+            <p>
+              This tool is next on the roadmap. JSON is live today — XML, YAML, and code
+              formatters will use the same layout.
+            </p>
+            <button type="button" className="action-btn primary" onClick={() => setActiveTool('json')}>
+              Back to JSON
+            </button>
+          </div>
+        </main>
+      )}
 
       <HowToUseModal
         open={showHowTo}

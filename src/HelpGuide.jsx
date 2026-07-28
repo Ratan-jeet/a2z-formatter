@@ -24,7 +24,7 @@ export const TOUR_STEPS = [
   {
     target: 'tour-header-actions',
     title: '5. History & theme',
-    body: 'Restore recent JSON from History, or switch Dark / Light editor theme.',
+    body: 'Switch tools from the A2Z header tabs. Restore recent work from History, or toggle Dark / Light.',
   },
 ]
 
@@ -32,6 +32,7 @@ const HOW_TO_SECTIONS = [
   {
     title: 'Quick start',
     items: [
+      'A2Z Formatter is a toolkit — JSON is live; XML, YAML, and JS/HTML/CSS are coming soon.',
       'Click Sample (or paste your JSON) in the Input panel.',
       'Choose indentation (2 / 3 / 4 spaces or Tab).',
       'Click Format / Beautify — formatted JSON appears in Output.',
