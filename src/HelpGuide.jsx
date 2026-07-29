@@ -4,7 +4,7 @@ export const TOUR_STEPS = [
   {
     target: 'tour-tools-tabs',
     title: '1. Choose a tool',
-    body: 'A2Z Formatter tools: JSON, XML, YAML, and JS/HTML/CSS. Pick a tab to switch formatters — same layout for each.',
+    body: 'Browse all A2Z tools from these tabs: formatters, Diff, Encode, Markdown, SQL, Cron, Hash, and Regex.',
   },
   {
     target: 'tour-input',
@@ -37,12 +37,12 @@ const HOW_TO_SECTIONS = [
   {
     title: 'Quick start',
     items: [
-      'A2Z Formatter includes JSON, XML, YAML, and JS/HTML/CSS tools.',
-      'Pick a tool tab in the header.',
-      'For JS/HTML/CSS, choose the language in the center panel, then Format or Minify.',
-      'Click Sample (or paste) in the Input panel.',
-      'Copy or Download the result.',
-      'Open Advanced features on JSON/XML/YAML for extra conversions.',
+      'A2Z includes JSON, XML, YAML, JS/HTML/CSS, Diff, Encode, Markdown, SQL, Cron, Hash, and Regex.',
+      'Pick a tool tab in the header, or open a direct link like /xml, /yaml, /js, /markdown.',
+      'Drag and drop a file onto an Input editor to load it.',
+      'Markdown shows a live preview. Cron explains schedules. Hash digests text/files. Regex highlights matches.',
+      'Click Sample (or paste) where available, then run the main action.',
+      'Copy or Download results when needed.',
     ],
   },
   {
@@ -63,18 +63,21 @@ const HOW_TO_SECTIONS = [
     items: [
       'Advanced → Code / Tree — browse Output as text or a tree.',
       'Advanced → Share Link — copies a URL that reloads your JSON.',
+      'Tool URLs — /json (home), /xml, /yaml, /js, /diff, /encode, /markdown, /sql, /cron, /hash, /regex.',
       'History — last 12 payloads saved in this browser.',
       'Dark / Light — editor theme preference is remembered.',
     ],
   },
-  {
-    title: 'Keyboard shortcuts',
-    items: [
-      'Ctrl+Enter — Format / Beautify',
-      'Ctrl+Shift+M — Minify',
-      'Ctrl+Shift+S — Share link',
-    ],
-  },
+]
+
+const SHORTCUTS = [
+  { keys: ['Ctrl', 'Enter'], action: 'Format / Beautify' },
+  { keys: ['Ctrl', 'Shift', 'M'], action: 'Minify' },
+  { keys: ['Ctrl', 'Shift', 'S'], action: 'Share link' },
+  { keys: ['Ctrl', 'F'], action: 'Find in editor' },
+  { keys: ['Ctrl', 'Z'], action: 'Undo' },
+  { keys: ['Ctrl', 'Y'], action: 'Redo' },
+  { keys: ['Esc'], action: 'Close dialogs / end tour' },
 ]
 
 export function HowToUseModal({ open, onClose, onStartTour }) {
@@ -115,6 +118,24 @@ export function HowToUseModal({ open, onClose, onStartTour }) {
               </ul>
             </section>
           ))}
+          <section className="help-section">
+            <h3>Keyboard cheat sheet</h3>
+            <div className="cheat-sheet">
+              {SHORTCUTS.map((row) => (
+                <div key={row.action} className="cheat-row">
+                  <div className="cheat-keys">
+                    {row.keys.map((key, i) => (
+                      <span key={`${row.action}-${key}`}>
+                        {i > 0 && <span className="cheat-plus">+</span>}
+                        <kbd>{key}</kbd>
+                      </span>
+                    ))}
+                  </div>
+                  <span className="cheat-action">{row.action}</span>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
         <div className="modal-foot">
           <button

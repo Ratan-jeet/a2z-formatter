@@ -6,6 +6,8 @@ import { yaml } from '@codemirror/lang-yaml'
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
+import { markdown } from '@codemirror/lang-markdown'
+import { sql } from '@codemirror/lang-sql'
 import { EditorView } from '@codemirror/view'
 import { HighlightStyle, syntaxHighlighting, foldAll, unfoldAll } from '@codemirror/language'
 import { undo, redo } from '@codemirror/commands'
@@ -38,6 +40,14 @@ import { HowToUseModal, TourOverlay, TOUR_STEPS } from './HelpGuide'
 import XmlWorkspace from './XmlWorkspace'
 import YamlWorkspace from './YamlWorkspace'
 import CodeWorkspace from './CodeWorkspace'
+import DiffWorkspace from './DiffWorkspace'
+import EncodeWorkspace from './EncodeWorkspace'
+import MarkdownWorkspace from './MarkdownWorkspace'
+import SqlWorkspace from './SqlWorkspace'
+import CronWorkspace from './CronWorkspace'
+import HashWorkspace from './HashWorkspace'
+import RegexWorkspace from './RegexWorkspace'
+import { navigateToTool, toolFromPath } from './toolRoutes'
 import './App.css'
 
 const TOOLS = [
@@ -45,6 +55,13 @@ const TOOLS = [
   { id: 'xml', label: 'XML', ready: true },
   { id: 'yaml', label: 'YAML', ready: true },
   { id: 'code', label: 'JS / HTML / CSS', ready: true },
+  { id: 'diff', label: 'Diff', ready: true },
+  { id: 'encode', label: 'Encode', ready: true },
+  { id: 'markdown', label: 'Markdown', ready: true },
+  { id: 'sql', label: 'SQL', ready: true },
+  { id: 'cron', label: 'Cron', ready: true },
+  { id: 'hash', label: 'Hash', ready: true },
+  { id: 'regex', label: 'Regex', ready: true },
 ]
 
 const SAMPLE = `{
@@ -283,17 +300,43 @@ function EditorPane({
 }) {
   const viewRef = useRef(null)
   const paneRef = useRef(null)
+  const bodyRef = useRef(null)
   const [fullscreen, setFullscreen] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
+  const [editorHeight, setEditorHeight] = useState(320)
+  const dragDepth = useRef(0)
+
+  const canDrop = Boolean(onUpload) && variant === 'input'
+
+  const applyDroppedFile = (file) => {
+    if (!file || !onUpload) return
+    try {
+      const dt = new DataTransfer()
+      dt.items.add(file)
+      if (fileInputRef?.current) {
+        fileInputRef.current.files = dt.files
+        onUpload({ target: fileInputRef.current })
+      } else {
+        onUpload({ target: { files: dt.files, value: '' } })
+      }
+    } catch {
+      onNotify?.('err', 'Could not load dropped file')
+    }
+  }
 
   const extensions = useMemo(() => {
-    let langExt = json()
+    let langExt = null
     if (language === 'xml') langExt = xml()
     else if (language === 'yaml') langExt = yaml()
     else if (language === 'javascript') langExt = javascript()
     else if (language === 'html') langExt = html()
     else if (language === 'css') langExt = css()
-    const base = [langExt, EditorView.lineWrapping]
+    else if (language === 'markdown') langExt = markdown()
+    else if (language === 'sql') langExt = sql()
+    else if (language === 'json') langExt = json()
+    const base = langExt ? [langExt, EditorView.lineWrapping] : [EditorView.lineWrapping]
     if (theme === 'dark') return [...base, oneDark]
+    if (language === 'text') return base
     return [...base, syntaxHighlighting(lightHighlight)]
   }, [theme, language])
 
@@ -302,6 +345,19 @@ function EditorPane({
     document.addEventListener('fullscreenchange', onFs)
     return () => document.removeEventListener('fullscreenchange', onFs)
   }, [])
+
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return undefined
+    const update = () => {
+      const next = Math.floor(el.getBoundingClientRect().height)
+      if (next > 0) setEditorHeight(next)
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [mode, fullscreen])
 
   const runView = (fn) => {
     const view = viewRef.current
@@ -373,7 +429,36 @@ function EditorPane({
   }
 
   return (
-    <section className={`editor-pane ${fullscreen ? 'is-fullscreen' : ''}`} data-tour={tourId} ref={paneRef}>
+    <section
+      className={`editor-pane ${fullscreen ? 'is-fullscreen' : ''} ${dragOver ? 'is-dragover' : ''}`}
+      data-tour={tourId}
+      ref={paneRef}
+      onDragEnter={(e) => {
+        if (!canDrop) return
+        e.preventDefault()
+        dragDepth.current += 1
+        setDragOver(true)
+      }}
+      onDragOver={(e) => {
+        if (!canDrop) return
+        e.preventDefault()
+        e.dataTransfer.dropEffect = 'copy'
+      }}
+      onDragLeave={() => {
+        if (!canDrop) return
+        dragDepth.current = Math.max(0, dragDepth.current - 1)
+        if (dragDepth.current === 0) setDragOver(false)
+      }}
+      onDrop={(e) => {
+        if (!canDrop) return
+        e.preventDefault()
+        dragDepth.current = 0
+        setDragOver(false)
+        const file = e.dataTransfer.files?.[0]
+        if (file) applyDroppedFile(file)
+        else onNotify?.('err', 'No file dropped')
+      }}
+    >
       <div className="editor-toolbar icon-toolbar">
         <div className="toolbar-icons">
           <ToolBtn title="Fold all" onClick={() => runView((v) => foldAll(v))}>
@@ -476,7 +561,12 @@ function EditorPane({
         </div>
         <span className="editor-title">{title}</span>
       </div>
-      <div className={`editor-body theme-${theme}`}>
+      <div className={`editor-body theme-${theme}`} ref={bodyRef}>
+        {dragOver && canDrop && (
+          <div className="drop-overlay" aria-hidden="true">
+            Drop file to load
+          </div>
+        )}
         {mode === 'tree' && treeData !== null ? (
           <div className="tree-view">
             <TreeNode name="root" value={treeData} path="root" />
@@ -500,23 +590,26 @@ function EditorPane({
             )}
           </div>
         ) : (
-          <CodeMirror
-            value={value}
-            height="100%"
-            theme={theme}
-            extensions={extensions}
-            onChange={onChange}
-            onCreateEditor={(view) => {
-              viewRef.current = view
-            }}
-            basicSetup={{
-              lineNumbers: true,
-              foldGutter: true,
-              highlightActiveLine: true,
-              searchKeymap: true,
-              history: true,
-            }}
-          />
+          <div className="editor-cm-host">
+            <CodeMirror
+              value={value}
+              height={`${editorHeight}px`}
+              width="100%"
+              theme={theme}
+              extensions={extensions}
+              onChange={onChange}
+              onCreateEditor={(view) => {
+                viewRef.current = view
+              }}
+              basicSetup={{
+                lineNumbers: true,
+                foldGutter: true,
+                highlightActiveLine: true,
+                searchKeymap: true,
+                history: true,
+              }}
+            />
+          </div>
         )}
       </div>
       <div className="editor-status">
@@ -541,15 +634,20 @@ export default function App() {
   const [showHowTo, setShowHowTo] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [tourStep, setTourStep] = useState(null)
-  const [activeTool, setActiveTool] = useState('json')
+  const [activeTool, setActiveTool] = useState(() => toolFromPath())
   const fileInputRef = useRef(null)
+
+  const selectTool = useCallback((id, { replace = false } = {}) => {
+    setActiveTool(id)
+    navigateToTool(id, { replace })
+  }, [])
 
   const startTour = useCallback(() => {
     setShowHowTo(false)
     setShowHistory(false)
-    setActiveTool('json')
+    selectTool('json')
     setTourStep(0)
-  }, [])
+  }, [selectTool])
 
   const closeTour = useCallback(() => setTourStep(null), [])
 
@@ -579,6 +677,13 @@ export default function App() {
   }, [theme])
 
   useEffect(() => {
+    navigateToTool(toolFromPath(), { replace: true })
+    const onPop = () => setActiveTool(toolFromPath())
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  useEffect(() => {
     const hash = window.location.hash.slice(1)
     if (!hash.startsWith('data=')) return
     try {
@@ -589,15 +694,6 @@ export default function App() {
       showStatus('err', 'Invalid share link')
     }
   }, [showStatus])
-
-  const stats = useMemo(() => {
-    try {
-      if (!input.trim()) return null
-      return collectStats(parseInput(input))
-    } catch {
-      return null
-    }
-  }, [input])
 
   const treeData = useMemo(() => {
     try {
@@ -983,10 +1079,18 @@ export default function App() {
     <div className={`app theme-${theme}`}>
       <header className="header">
         <div className="header-left">
-          <div className="brand">
+          <a
+            href="/"
+            className="brand"
+            aria-label="A2Z Formatter home"
+            onClick={(e) => {
+              e.preventDefault()
+              selectTool('json')
+            }}
+          >
             <span className="brand-mark">A2Z</span>
             <span className="brand-name">formatter</span>
-          </div>
+          </a>
           <nav className="tool-tabs" aria-label="Formatter tools" data-tour="tour-tools-tabs">
             {TOOLS.map((tool) => (
               <button
@@ -994,7 +1098,7 @@ export default function App() {
                 type="button"
                 className={`tool-tab ${activeTool === tool.id ? 'is-active' : ''} ${tool.ready ? '' : 'is-soon'}`}
                 onClick={() => {
-                  setActiveTool(tool.id)
+                  selectTool(tool.id)
                   if (!tool.ready) {
                     showStatus('ok', `${tool.label} formatter is coming soon`)
                   }
@@ -1007,14 +1111,6 @@ export default function App() {
           </nav>
         </div>
         <div className="header-right" data-tour="tour-header-actions">
-          {activeTool === 'json' && stats && (
-            <div className="header-stats">
-              <span>{stats.keys} keys</span>
-              <span>{stats.objects} objs</span>
-              <span>{stats.arrays} arrs</span>
-              <span>depth {stats.depth}</span>
-            </div>
-          )}
           <button type="button" className="header-btn" onClick={startTour} title="Take a quick tour">
             Tour
           </button>
@@ -1221,6 +1317,28 @@ export default function App() {
           EditorPane={EditorPane}
           remember={remember}
         />
+      ) : activeTool === 'diff' ? (
+        <DiffWorkspace
+          theme={theme}
+          EditorPane={EditorPane}
+          remember={remember}
+        />
+      ) : activeTool === 'encode' ? (
+        <EncodeWorkspace
+          theme={theme}
+          EditorPane={EditorPane}
+          remember={remember}
+        />
+      ) : activeTool === 'markdown' ? (
+        <MarkdownWorkspace theme={theme} EditorPane={EditorPane} remember={remember} />
+      ) : activeTool === 'sql' ? (
+        <SqlWorkspace theme={theme} EditorPane={EditorPane} remember={remember} />
+      ) : activeTool === 'cron' ? (
+        <CronWorkspace theme={theme} />
+      ) : activeTool === 'hash' ? (
+        <HashWorkspace theme={theme} EditorPane={EditorPane} remember={remember} />
+      ) : activeTool === 'regex' ? (
+        <RegexWorkspace theme={theme} />
       ) : (
         <main className="coming-soon">
           <div className="coming-soon-card">
@@ -1229,7 +1347,7 @@ export default function App() {
               {TOOLS.find((t) => t.id === activeTool)?.label || 'Tool'} formatter
             </h1>
             <p>This tool is not available yet.</p>
-            <button type="button" className="action-btn primary" onClick={() => setActiveTool('json')}>
+            <button type="button" className="action-btn primary" onClick={() => selectTool('json')}>
               Back to JSON
             </button>
           </div>
