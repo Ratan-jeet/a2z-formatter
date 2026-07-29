@@ -8,7 +8,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!json-formatter/?$|sitemap\\.xml$|robots\\.txt$).*)",
+      "source": "/((?!json-formatter/?$|sitemap\\.xml$|robots\\.txt$|googlef9b0caf7728e31a8\\.html$).*)",
       "destination": "/index.html"
     }
   ]
