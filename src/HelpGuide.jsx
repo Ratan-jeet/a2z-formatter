@@ -4,7 +4,7 @@ export const TOUR_STEPS = [
   {
     target: 'tour-tools-tabs',
     title: '1. Choose a tool',
-    body: 'A2Z Formatter has multiple tools. JSON and XML are live. YAML and JS/HTML/CSS show Soon until they ship.',
+    body: 'A2Z Formatter tools: JSON, XML, YAML, and JS/HTML/CSS. Pick a tab to switch formatters — same layout for each.',
   },
   {
     target: 'tour-input',
@@ -37,12 +37,12 @@ const HOW_TO_SECTIONS = [
   {
     title: 'Quick start',
     items: [
-      'A2Z Formatter is a toolkit — JSON and XML are live; YAML and JS/HTML/CSS are coming soon.',
-      'Pick a tool tab in the header (JSON or XML).',
+      'A2Z Formatter includes JSON, XML, YAML, and JS/HTML/CSS tools.',
+      'Pick a tool tab in the header.',
+      'For JS/HTML/CSS, choose the language in the center panel, then Format or Minify.',
       'Click Sample (or paste) in the Input panel.',
-      'Choose indentation, then Format / Beautify — result appears in Output.',
       'Copy or Download the result.',
-      'Open Advanced features for extra conversions and tools.',
+      'Open Advanced features on JSON/XML/YAML for extra conversions.',
     ],
   },
   {

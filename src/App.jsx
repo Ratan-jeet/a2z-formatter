@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
 import { xml } from '@codemirror/lang-xml'
+import { yaml } from '@codemirror/lang-yaml'
+import { javascript } from '@codemirror/lang-javascript'
+import { html } from '@codemirror/lang-html'
+import { css } from '@codemirror/lang-css'
 import { EditorView } from '@codemirror/view'
 import { HighlightStyle, syntaxHighlighting, foldAll, unfoldAll } from '@codemirror/language'
 import { undo, redo } from '@codemirror/commands'
@@ -32,13 +36,15 @@ import {
 } from './jsonUtils'
 import { HowToUseModal, TourOverlay, TOUR_STEPS } from './HelpGuide'
 import XmlWorkspace from './XmlWorkspace'
+import YamlWorkspace from './YamlWorkspace'
+import CodeWorkspace from './CodeWorkspace'
 import './App.css'
 
 const TOOLS = [
   { id: 'json', label: 'JSON', ready: true },
   { id: 'xml', label: 'XML', ready: true },
-  { id: 'yaml', label: 'YAML', ready: false },
-  { id: 'code', label: 'JS / HTML / CSS', ready: false },
+  { id: 'yaml', label: 'YAML', ready: true },
+  { id: 'code', label: 'JS / HTML / CSS', ready: true },
 ]
 
 const SAMPLE = `{
@@ -280,7 +286,12 @@ function EditorPane({
   const [fullscreen, setFullscreen] = useState(false)
 
   const extensions = useMemo(() => {
-    const langExt = language === 'xml' ? xml() : json()
+    let langExt = json()
+    if (language === 'xml') langExt = xml()
+    else if (language === 'yaml') langExt = yaml()
+    else if (language === 'javascript') langExt = javascript()
+    else if (language === 'html') langExt = html()
+    else if (language === 'css') langExt = css()
     const base = [langExt, EditorView.lineWrapping]
     if (theme === 'dark') return [...base, oneDark]
     return [...base, syntaxHighlighting(lightHighlight)]
@@ -1198,6 +1209,18 @@ export default function App() {
           EditorPane={EditorPane}
           remember={remember}
         />
+      ) : activeTool === 'yaml' ? (
+        <YamlWorkspace
+          theme={theme}
+          EditorPane={EditorPane}
+          remember={remember}
+        />
+      ) : activeTool === 'code' ? (
+        <CodeWorkspace
+          theme={theme}
+          EditorPane={EditorPane}
+          remember={remember}
+        />
       ) : (
         <main className="coming-soon">
           <div className="coming-soon-card">
@@ -1205,10 +1228,7 @@ export default function App() {
             <h1>
               {TOOLS.find((t) => t.id === activeTool)?.label || 'Tool'} formatter
             </h1>
-            <p>
-              This tool is next on the roadmap. JSON and XML are live — YAML and code
-              formatters will use the same layout.
-            </p>
+            <p>This tool is not available yet.</p>
             <button type="button" className="action-btn primary" onClick={() => setActiveTool('json')}>
               Back to JSON
             </button>
