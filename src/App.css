@@ -10,6 +10,29 @@
     var(--bg);
 }
 
+.site-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem 0.5rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.site-footer a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #7dd3c7;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -573,6 +596,9 @@
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .header-btn:hover {

@@ -685,6 +685,12 @@ export default function App() {
 
   useEffect(() => {
     const hash = window.location.hash.slice(1)
+    if (hash === 'sample') {
+      setInput(SAMPLE)
+      selectTool('json', { replace: true })
+      showStatus('ok', 'Sample JSON loaded')
+      return
+    }
     if (!hash.startsWith('data=')) return
     try {
       const decoded = decodeSharePayload(hash.slice(5))
@@ -693,7 +699,7 @@ export default function App() {
     } catch {
       showStatus('err', 'Invalid share link')
     }
-  }, [showStatus])
+  }, [showStatus, selectTool])
 
   const treeData = useMemo(() => {
     try {
@@ -1111,6 +1117,9 @@ export default function App() {
           </nav>
         </div>
         <div className="header-right" data-tour="tour-header-actions">
+          <a className="header-btn" href="/json-formatter/" title="JSON formatter guide & SEO page">
+            JSON guide
+          </a>
           <button type="button" className="header-btn" onClick={startTour} title="Take a quick tour">
             Tour
           </button>
@@ -1522,6 +1531,16 @@ export default function App() {
           onClose={closeTour}
         />
       )}
+
+      <footer className="site-footer">
+        <a href="/json-formatter/">JSON Formatter guide</a>
+        <span aria-hidden="true">·</span>
+        <a href="/sitemap.xml">Sitemap</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/Ratan-jeet/a2z-formatter" target="_blank" rel="noreferrer">
+          GitHub
+        </a>
+      </footer>
     </div>
   )
 }

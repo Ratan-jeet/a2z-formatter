@@ -1,3 +1,15 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "redirects": [
+    {
+      "source": "/json-formatter",
+      "destination": "/json-formatter/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!json-formatter/?$|sitemap\\.xml$|robots\\.txt$).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

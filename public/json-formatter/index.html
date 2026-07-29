@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free JSON Formatter &amp; Validator Online — A2Z Formatter</title>
+    <meta
+      name="description"
+      content="Free online JSON formatter and validator. Beautify, minify, repair, tree-view, diff, and convert JSON to XML, CSV, YAML, or TypeScript — 100% in your browser. No signup."
+    />
+    <meta
+      name="keywords"
+      content="JSON formatter, JSON validator, JSON beautifier, pretty print JSON, JSON minify, JSON lint, JSON to XML, JSON to CSV, JSON to YAML, online JSON formatter"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Ratan-jeet" />
+    <link rel="canonical" href="https://a2z-formatter.vercel.app/json-formatter/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://a2z-formatter.vercel.app/json-formatter/" />
+    <meta property="og:title" content="Free JSON Formatter &amp; Validator Online — A2Z Formatter" />
+    <meta
+      property="og:description"
+      content="Beautify, validate, minify, repair, and convert JSON in your browser. Free, private, no signup."
+    />
+    <meta property="og:site_name" content="A2Z Formatter" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free JSON Formatter &amp; Validator — A2Z" />
+    <meta
+      name="twitter:description"
+      content="Pretty-print, validate, minify, and convert JSON online. Runs locally in your browser."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "A2Z JSON Formatter",
+            "url": "https://a2z-formatter.vercel.app/json-formatter/",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "Free online JSON formatter and validator. Beautify, minify, repair, tree view, diff, and convert JSON in the browser.",
+            "featureList": [
+              "Format / beautify JSON",
+              "Validate with line and column errors",
+              "Minify JSON",
+              "Repair loose JSON",
+              "Tree view",
+              "Diff input vs output",
+              "Convert to XML, CSV, YAML, TypeScript",
+              "Shareable links",
+              "Runs offline in the browser"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is a JSON formatter?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A JSON formatter (also called a beautifier or pretty printer) adds indentation and line breaks to compact JSON so humans can read nested objects and arrays. A2Z Formatter does this entirely in your browser."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is A2Z JSON Formatter free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. A2Z Formatter is free to use with no account and no signup. Format, validate, minify, and convert JSON without limits."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does my JSON leave my computer?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Formatting and validation run locally in your browser using JavaScript. Your payloads are not uploaded to A2Z servers for processing."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I validate JSON online?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Paste JSON into the A2Z editor and click Validate. If the JSON is invalid, the tool reports the error with line and column so you can fix missing commas, quotes, or brackets quickly."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I convert JSON to XML, CSV, or YAML?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Open Advanced features in the JSON tool to convert formatted JSON to XML, CSV, YAML, or TypeScript interfaces, then copy or download the result."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "A2Z Formatter",
+                "item": "https://a2z-formatter.vercel.app/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "JSON Formatter",
+                "item": "https://a2z-formatter.vercel.app/json-formatter/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      :root {
+        --bg: #0c6e70;
+        --bg-deep: #085456;
+        --ink: #f4fffe;
+        --muted: rgba(244, 255, 254, 0.78);
+        --accent: #7dd3c7;
+        --panel: rgba(0, 0, 0, 0.22);
+        --panel-border: rgba(255, 255, 255, 0.14);
+        --font: 'Outfit', system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 90% 55% at 12% -10%, rgba(125, 211, 199, 0.28), transparent 55%),
+          radial-gradient(ellipse 70% 45% at 95% 20%, rgba(0, 0, 0, 0.25), transparent 50%),
+          linear-gradient(165deg, #0e8a8a 0%, var(--bg) 42%, var(--bg-deep) 100%);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .wrap {
+        width: min(1080px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 0 0.4rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        text-decoration: none;
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 1.15rem;
+      }
+
+      .brand-mark {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .brand-name {
+        color: #fff;
+        text-transform: lowercase;
+      }
+
+      .top-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+      }
+
+      .top-nav a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .top-nav a:hover {
+        color: #fff;
+      }
+
+      .hero {
+        padding: 3.2rem 0 2.6rem;
+        display: grid;
+        gap: 1.1rem;
+        max-width: 720px;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(2.15rem, 5vw, 3.35rem);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 800;
+      }
+
+      .hero p {
+        margin: 0;
+        font-size: 1.12rem;
+        line-height: 1.55;
+        color: var(--muted);
+        max-width: 38rem;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 0.35rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0.7rem 1.2rem;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        font-family: var(--font);
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: #fff;
+        color: #0a5557;
+      }
+
+      .btn-primary:hover {
+        background: #f0fffd;
+      }
+
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.22);
+        color: #fff;
+      }
+
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      .trust {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .panel {
+        margin: 0.5rem 0 2.2rem;
+        padding: 1.35rem 1.25rem;
+        border-radius: 14px;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        backdrop-filter: blur(8px);
+      }
+
+      .panel h2 {
+        margin: 0 0 0.55rem;
+        font-size: 1.45rem;
+        letter-spacing: -0.02em;
+      }
+
+      .panel > p {
+        margin: 0 0 1rem;
+        color: var(--muted);
+        line-height: 1.5;
+        max-width: 44rem;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.85rem;
+      }
+
+      .feature {
+        padding: 0.9rem 0.95rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .feature h3 {
+        margin: 0 0 0.35rem;
+        font-size: 1rem;
+      }
+
+      .feature p {
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+
+      .steps {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .steps li {
+        margin-bottom: 0.55rem;
+      }
+
+      .steps strong {
+        color: #fff;
+      }
+
+      .faq details {
+        padding: 0.85rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .faq details:last-child {
+        border-bottom: 0;
+      }
+
+      .faq summary {
+        cursor: pointer;
+        font-weight: 650;
+        list-style: none;
+      }
+
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .faq summary::before {
+        content: '+';
+        display: inline-block;
+        width: 1.1rem;
+        color: var(--accent);
+        font-family: var(--mono);
+      }
+
+      .faq details[open] summary::before {
+        content: '–';
+      }
+
+      .faq p {
+        margin: 0.55rem 0 0.15rem 1.1rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .related {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .related a {
+        text-decoration: none;
+        color: #fff;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.16);
+        font-size: 0.85rem;
+      }
+
+      .related a:hover {
+        border-color: rgba(125, 211, 199, 0.5);
+        background: rgba(125, 211, 199, 0.12);
+      }
+
+      .seo-copy {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.98rem;
+      }
+
+      .seo-copy p {
+        margin: 0 0 0.9rem;
+      }
+
+      .code-sample {
+        margin: 1rem 0 0;
+        padding: 0.95rem 1rem;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.35);
+        color: #d7fff8;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        line-height: 1.45;
+        overflow: auto;
+      }
+
+      footer {
+        padding: 1.5rem 0 2.4rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        justify-content: space-between;
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        color: #fff;
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding-top: 2rem;
+        }
+
+        .top {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="brand" href="/" aria-label="A2Z Formatter home">
+          <span class="brand-mark">A2Z</span>
+          <span class="brand-name">formatter</span>
+        </a>
+        <nav class="top-nav" aria-label="Secondary">
+          <a href="/">Open tool</a>
+          <a href="#how-to">How to use</a>
+          <a href="#faq">FAQ</a>
+          <a href="#related">More tools</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1>Free JSON Formatter &amp; Validator</h1>
+        <p>
+          Pretty-print, validate, minify, repair, and convert JSON in your browser.
+          Built for API payloads, configs, and debugging — private by default.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/">Open JSON Formatter</a>
+          <a class="btn btn-ghost" href="/#sample">Load sample &amp; try</a>
+        </div>
+        <ul class="trust">
+          <li>100% browser-side</li>
+          <li>No signup</li>
+          <li>Format · Validate · Minify · Convert</li>
+        </ul>
+      </section>
+
+      <section class="panel" id="features" aria-labelledby="features-title">
+        <h2 id="features-title">What you can do</h2>
+        <p>Everything you need for day-to-day JSON work, in one free workspace.</p>
+        <div class="features">
+          <article class="feature">
+            <h3>Format / Beautify</h3>
+            <p>Indent with 2, 3, 4 spaces or tabs. Shortcut: Ctrl+Enter.</p>
+          </article>
+          <article class="feature">
+            <h3>Validate</h3>
+            <p>Catch syntax errors with clear line and column messages.</p>
+          </article>
+          <article class="feature">
+            <h3>Minify</h3>
+            <p>Strip whitespace for compact payloads and smaller transfers.</p>
+          </article>
+          <article class="feature">
+            <h3>Repair</h3>
+            <p>Fix comments and trailing commas into Output without rewriting Input.</p>
+          </article>
+          <article class="feature">
+            <h3>Tree &amp; Diff</h3>
+            <p>Browse structure as a tree, or compare Input vs Output paths.</p>
+          </article>
+          <article class="feature">
+            <h3>Convert</h3>
+            <p>Export to XML, CSV, YAML, or TypeScript interfaces.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="how-to" aria-labelledby="how-title">
+        <h2 id="how-title">How to format JSON online</h2>
+        <ol class="steps">
+          <li><strong>Open the tool</strong> — click “Open JSON Formatter”.</li>
+          <li><strong>Paste or drop</strong> — put JSON in the Input panel, or drag a <code>.json</code> file onto the editor.</li>
+          <li><strong>Format</strong> — press Format / Beautify (or Ctrl+Enter) to pretty-print.</li>
+          <li><strong>Validate or minify</strong> — use Validate for errors, Minify for a compact string.</li>
+          <li><strong>Copy or download</strong> — take the Output into your ticket, PR, or file.</li>
+        </ol>
+        <pre class="code-sample" aria-label="JSON example">&#123;
+  "name": "A2Z Formatter",
+  "features": ["format", "validate", "minify"],
+  "private": true
+&#125;</pre>
+      </section>
+
+      <section class="panel" aria-labelledby="why-title">
+        <h2 id="why-title">Why use A2Z as your JSON formatter?</h2>
+        <div class="seo-copy">
+          <p>
+            A <strong>JSON formatter</strong> (also called a JSON beautifier or pretty printer) turns minified API
+            responses into readable, indented text. Developers use it to review payloads, debug configs, and share
+            samples in docs or chat. A2Z Formatter is a free online JSON formatter and JSON validator designed for
+            that workflow.
+          </p>
+          <p>
+            Unlike editor-only snippets, A2Z also acts as a JSON lint helper, JSON minifier, tree viewer, and converter.
+            Advanced tools cover sort keys, flatten/unflatten, JSON path lookup, share links, and local history — so you
+            spend less time switching tabs.
+          </p>
+          <p>
+            Processing stays in the browser: paste sensitive staging data with less risk than uploading to unknown
+            servers. After the page loads, formatting continues to work even if your connection drops.
+          </p>
+        </div>
+      </section>
+
+      <section class="panel faq" id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">JSON formatter FAQ</h2>
+        <details open>
+          <summary>What is a JSON formatter?</summary>
+          <p>
+            A JSON formatter adds indentation and line breaks to compact JSON so nested objects and arrays are easy to
+            read. It does not change the meaning of valid data — only the whitespace.
+          </p>
+        </details>
+        <details>
+          <summary>Is this JSON formatter free?</summary>
+          <p>Yes. No account, no signup, and no paid unlock for core format / validate / minify features.</p>
+        </details>
+        <details>
+          <summary>Is my data sent to a server?</summary>
+          <p>
+            Formatting and validation run locally in your browser with JavaScript. A2Z does not need your JSON payload
+            on a backend to beautify it.
+          </p>
+        </details>
+        <details>
+          <summary>How do I validate JSON?</summary>
+          <p>
+            Paste JSON and click Validate. Invalid JSON shows an error with line and column so you can fix quotes,
+            commas, or brackets quickly.
+          </p>
+        </details>
+        <details>
+          <summary>Can I convert JSON to XML, CSV, or YAML?</summary>
+          <p>
+            Yes. In the JSON tool, open Advanced features and convert to XML, CSV, YAML, or TypeScript, then copy or
+            download the result.
+          </p>
+        </details>
+        <details>
+          <summary>Does it work on mobile?</summary>
+          <p>Yes. The editors and actions work on phones and tablets; for large files, a desktop browser is more comfortable.</p>
+        </details>
+      </section>
+
+      <section class="panel" id="related" aria-labelledby="related-title">
+        <h2 id="related-title">More free developer tools</h2>
+        <p>A2Z is a full suite — jump to another formatter when you need it.</p>
+        <div class="related">
+          <a href="/xml">XML Formatter</a>
+          <a href="/yaml">YAML Formatter</a>
+          <a href="/js">JS / HTML / CSS</a>
+          <a href="/diff">Diff</a>
+          <a href="/encode">Encode / Decode</a>
+          <a href="/markdown">Markdown Preview</a>
+          <a href="/sql">SQL Formatter</a>
+          <a href="/cron">Cron Parser</a>
+          <a href="/hash">Hash Generator</a>
+          <a href="/regex">Regex Tester</a>
+        </div>
+      </section>
+
+      <div class="cta-row" style="margin-bottom: 2rem">
+        <a class="btn btn-primary" href="/">Start formatting JSON</a>
+      </div>
+
+      <footer>
+        <div>© <span id="y"></span> A2Z Formatter · Free online JSON tools</div>
+        <div>
+          <a href="/">App</a>
+          ·
+          <a href="/json-formatter/">JSON Formatter</a>
+          ·
+          <a href="https://github.com/Ratan-jeet/a2z-formatter">GitHub</a>
+        </div>
+      </footer>
+    </div>
+    <script>
+      document.getElementById('y').textContent = new Date().getFullYear()
+    </script>
+  </body>
+</html>

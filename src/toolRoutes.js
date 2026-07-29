@@ -36,6 +36,8 @@ const ALIASES = {
 export function toolFromPath(pathname = window.location.pathname) {
   const raw = pathname.replace(/\/+$/, '') || '/'
   const segment = raw === '/' ? '' : raw.slice(1).toLowerCase()
+  // SEO / static marketing pages — do not map into the JSON tool workspace
+  if (segment === 'json-formatter') return 'json'
   return ALIASES[segment] || 'json'
 }
 

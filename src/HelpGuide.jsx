@@ -64,6 +64,7 @@ const HOW_TO_SECTIONS = [
       'Advanced → Code / Tree — browse Output as text or a tree.',
       'Advanced → Share Link — copies a URL that reloads your JSON.',
       'Tool URLs — /json (home), /xml, /yaml, /js, /diff, /encode, /markdown, /sql, /cron, /hash, /regex.',
+      'JSON guide — /json-formatter/ is the SEO landing page for “JSON formatter” searches.',
       'History — last 12 payloads saved in this browser.',
       'Dark / Light — editor theme preference is remembered.',
     ],
