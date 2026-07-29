@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
+import { xml } from '@codemirror/lang-xml'
 import { EditorView } from '@codemirror/view'
 import { HighlightStyle, syntaxHighlighting, foldAll, unfoldAll } from '@codemirror/language'
 import { undo, redo } from '@codemirror/commands'
@@ -30,11 +31,12 @@ import {
   decodeSharePayload,
 } from './jsonUtils'
 import { HowToUseModal, TourOverlay, TOUR_STEPS } from './HelpGuide'
+import XmlWorkspace from './XmlWorkspace'
 import './App.css'
 
 const TOOLS = [
   { id: 'json', label: 'JSON', ready: true },
-  { id: 'xml', label: 'XML', ready: false },
+  { id: 'xml', label: 'XML', ready: true },
   { id: 'yaml', label: 'YAML', ready: false },
   { id: 'code', label: 'JS / HTML / CSS', ready: false },
 ]
@@ -252,6 +254,7 @@ function EditorPane({
   value,
   onChange,
   theme,
+  language = 'json',
   variant = 'input',
   onClear,
   onCopy,
@@ -270,16 +273,18 @@ function EditorPane({
   treeData = null,
   diffRows = null,
   tourId,
+  acceptFiles,
 }) {
   const viewRef = useRef(null)
   const paneRef = useRef(null)
   const [fullscreen, setFullscreen] = useState(false)
 
   const extensions = useMemo(() => {
-    const base = [json(), EditorView.lineWrapping]
+    const langExt = language === 'xml' ? xml() : json()
+    const base = [langExt, EditorView.lineWrapping]
     if (theme === 'dark') return [...base, oneDark]
     return [...base, syntaxHighlighting(lightHighlight)]
-  }, [theme])
+  }, [theme, language])
 
   useEffect(() => {
     const onFs = () => setFullscreen(Boolean(document.fullscreenElement))
@@ -406,7 +411,7 @@ function EditorPane({
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".json,application/json,text/plain,.txt,.yaml,.yml"
+                accept={acceptFiles || '.json,application/json,text/plain,.txt,.yaml,.yml,.xml,text/xml'}
                 hidden
                 onChange={onUpload}
               />
@@ -531,6 +536,7 @@ export default function App() {
   const startTour = useCallback(() => {
     setShowHowTo(false)
     setShowHistory(false)
+    setActiveTool('json')
     setTourStep(0)
   }, [])
 
@@ -970,7 +976,7 @@ export default function App() {
             <span className="brand-mark">A2Z</span>
             <span className="brand-name">formatter</span>
           </div>
-          <nav className="tool-tabs" aria-label="Formatter tools">
+          <nav className="tool-tabs" aria-label="Formatter tools" data-tour="tour-tools-tabs">
             {TOOLS.map((tool) => (
               <button
                 key={tool.id}
@@ -1186,6 +1192,12 @@ export default function App() {
           diffRows={diffRows}
         />
       </main>
+      ) : activeTool === 'xml' ? (
+        <XmlWorkspace
+          theme={theme}
+          EditorPane={EditorPane}
+          remember={remember}
+        />
       ) : (
         <main className="coming-soon">
           <div className="coming-soon-card">
@@ -1194,7 +1206,7 @@ export default function App() {
               {TOOLS.find((t) => t.id === activeTool)?.label || 'Tool'} formatter
             </h1>
             <p>
-              This tool is next on the roadmap. JSON is live today — XML, YAML, and code
+              This tool is next on the roadmap. JSON and XML are live — YAML and code
               formatters will use the same layout.
             </p>
             <button type="button" className="action-btn primary" onClick={() => setActiveTool('json')}>

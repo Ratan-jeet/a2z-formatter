@@ -2,29 +2,34 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 export const TOUR_STEPS = [
   {
+    target: 'tour-tools-tabs',
+    title: '1. Choose a tool',
+    body: 'A2Z Formatter has multiple tools. JSON and XML are live. YAML and JS/HTML/CSS show Soon until they ship.',
+  },
+  {
     target: 'tour-input',
-    title: '1. Input panel',
-    body: 'Paste or type JSON here. Use Sample, Paste, or Open to load data quickly.',
+    title: '2. Input panel',
+    body: 'Paste or type data here for the selected tool. Use Sample, Paste, or Open to load quickly.',
   },
   {
     target: 'tour-tools',
-    title: '2. Tools',
+    title: '3. Actions',
     body: 'Use Validate, Format, Minify, and Download here. Open Advanced features for sort, convert, path, tree, and more.',
   },
   {
     target: 'tour-format',
-    title: '3. Format / Beautify',
-    body: 'Click this to pretty-print your JSON with the indentation you chose. Shortcut: Ctrl+Enter.',
+    title: '4. Format / Beautify',
+    body: 'Pretty-print JSON with your chosen indentation. Shortcut: Ctrl+Enter. Invalid JSON with comments/trailing commas is auto-repaired into Output only.',
   },
   {
     target: 'tour-output',
-    title: '4. Output panel',
-    body: 'Results appear here. Use Advanced features for Tree or Diff views, then Copy or Download.',
+    title: '5. Output panel',
+    body: 'Results appear here. Switch Code / Tree / Diff from the toolbar, then Copy or Download.',
   },
   {
     target: 'tour-header-actions',
-    title: '5. History & theme',
-    body: 'Switch tools from the A2Z header tabs. Restore recent work from History, or toggle Dark / Light.',
+    title: '6. History & theme',
+    body: 'Restore recent work from History, or toggle Dark / Light. Tour and How to use live here too.',
   },
 ]
 
@@ -32,12 +37,12 @@ const HOW_TO_SECTIONS = [
   {
     title: 'Quick start',
     items: [
-      'A2Z Formatter is a toolkit — JSON is live; XML, YAML, and JS/HTML/CSS are coming soon.',
-      'Click Sample (or paste your JSON) in the Input panel.',
-      'Choose indentation (2 / 3 / 4 spaces or Tab).',
-      'Click Format / Beautify — formatted JSON appears in Output.',
+      'A2Z Formatter is a toolkit — JSON and XML are live; YAML and JS/HTML/CSS are coming soon.',
+      'Pick a tool tab in the header (JSON or XML).',
+      'Click Sample (or paste) in the Input panel.',
+      'Choose indentation, then Format / Beautify — result appears in Output.',
       'Copy or Download the result.',
-      'Open Advanced features for sort, convert, path, tree, diff, and more.',
+      'Open Advanced features for extra conversions and tools.',
     ],
   },
   {
