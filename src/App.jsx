@@ -347,15 +347,17 @@ function EditorPane({
   }, [])
 
   useEffect(() => {
-    const el = bodyRef.current
-    if (!el || typeof ResizeObserver === 'undefined') return undefined
+    const body = bodyRef.current
+    const pane = paneRef.current
+    if ((!body && !pane) || typeof ResizeObserver === 'undefined') return undefined
     const update = () => {
-      const next = Math.floor(el.getBoundingClientRect().height)
+      const next = Math.floor((body || pane).getBoundingClientRect().height)
       if (next > 0) setEditorHeight(next)
     }
     update()
     const ro = new ResizeObserver(update)
-    ro.observe(el)
+    if (body) ro.observe(body)
+    if (pane) ro.observe(pane)
     return () => ro.disconnect()
   }, [mode, fullscreen])
 
@@ -460,6 +462,7 @@ function EditorPane({
       }}
     >
       <div className="editor-toolbar icon-toolbar">
+        <span className="editor-title">{title}</span>
         <div className="toolbar-icons">
           <ToolBtn title="Fold all" onClick={() => runView((v) => foldAll(v))}>
             {Ico.fold}
@@ -559,7 +562,6 @@ function EditorPane({
             {Ico.fullscreen}
           </ToolBtn>
         </div>
-        <span className="editor-title">{title}</span>
       </div>
       <div className={`editor-body theme-${theme}`} ref={bodyRef}>
         {dragOver && canDrop && (
