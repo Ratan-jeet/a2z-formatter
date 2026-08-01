@@ -431,6 +431,7 @@ select.cron-input option {
 .util-card .cron-actions {
   margin: 0.4rem 0;
   gap: 0.35rem;
+  flex-wrap: wrap;
 }
 
 .util-card .cron-actions .action-btn {
@@ -476,9 +477,42 @@ select.cron-input option {
   font-size: 0.95rem;
 }
 
+.ts-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.55rem;
+}
+
+.ts-tab {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  padding: 0.5rem 0.35rem;
+  white-space: nowrap;
+}
+
+.ts-tab.is-on {
+  background: rgba(125, 211, 199, 0.28);
+  border-color: rgba(125, 211, 199, 0.65);
+  color: #fff;
+  font-weight: 700;
+}
+
+.ts-active-label {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  color: rgba(244, 255, 254, 0.8);
+}
+
+.ts-active-label strong {
+  color: #7dd3c7;
+}
+
 .live-clock {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.45rem;
   margin-bottom: 0.85rem;
 }
@@ -496,13 +530,6 @@ select.cron-input option {
   background: rgba(0, 0, 0, 0.28);
   color: #fff;
   font-size: 0.9rem;
-}
-
-.ts-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.35rem 0 0.85rem;
 }
 
 .ts-subhead {
@@ -1881,6 +1908,24 @@ html[data-theme='dark'] .cron-workspace .case-output {
 
   .advanced-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ts-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ts-tab {
+    font-size: 0.75rem;
+    padding: 0.6rem 0.4rem;
+  }
+
+  .util-card .live-clock,
+  .live-clock {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .live-clock .cron-field:last-child {
+    grid-column: 1 / -1;
   }
 
   .site-footer {

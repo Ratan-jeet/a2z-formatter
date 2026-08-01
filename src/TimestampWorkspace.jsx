@@ -16,7 +16,7 @@ import {
 const TABS = [
   { id: 'convert', label: 'Convert' },
   { id: 'relative', label: 'Relative' },
-  { id: 'duration', label: 'Duration / ETA' },
+  { id: 'duration', label: 'Duration' },
   { id: 'stopwatch', label: 'Stopwatch' },
 ]
 
@@ -151,18 +151,27 @@ export default function TimestampWorkspace({ theme }) {
           </select>
         </label>
 
-        <div className="ts-tabs">
+        <div className="ts-tabs" role="tablist" aria-label="Timestamp modes">
           {TABS.map((item) => (
             <button
               key={item.id}
               type="button"
-              className={`cron-chip ${tab === item.id ? 'is-on' : ''}`}
-              onClick={() => setTab(item.id)}
+              role="tab"
+              aria-selected={tab === item.id}
+              className={`cron-chip ts-tab ${tab === item.id ? 'is-on' : ''}`}
+              onClick={() => {
+                setTab(item.id)
+                setStatus({ type: '', message: '' })
+              }}
             >
               {item.label}
             </button>
           ))}
         </div>
+
+        <p className="ts-active-label">
+          Mode: <strong>{TABS.find((t) => t.id === tab)?.label}</strong>
+        </p>
 
         <div className="live-clock">
           <div className="cron-field">
