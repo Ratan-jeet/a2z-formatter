@@ -11,6 +11,9 @@ export const TOOL_PATHS = {
   cron: '/cron',
   hash: '/hash',
   regex: '/regex',
+  timestamp: '/timestamp',
+  uuid: '/uuid',
+  case: '/case',
 }
 
 const ALIASES = {
@@ -31,6 +34,13 @@ const ALIASES = {
   cron: 'cron',
   hash: 'hash',
   regex: 'regex',
+  timestamp: 'timestamp',
+  time: 'timestamp',
+  unix: 'timestamp',
+  uuid: 'uuid',
+  ulid: 'uuid',
+  case: 'case',
+  'case-converter': 'case',
 }
 
 export function toolFromPath(pathname = window.location.pathname) {

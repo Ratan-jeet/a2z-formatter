@@ -291,7 +291,8 @@
 }
 
 .cron-card,
-.regex-card {
+.regex-card,
+.util-card {
   width: min(720px, 100%);
   padding: 1.25rem 1.2rem;
   border-radius: 10px;
@@ -300,15 +301,19 @@
 }
 
 .cron-card h1,
-.regex-card h1 {
+.regex-card h1,
+.util-card h1 {
   margin: 0 0 0.45rem;
   font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .cron-lead {
   margin: 0 0 1rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.45;
+  font-size: 0.92rem;
 }
 
 .cron-input,
@@ -317,10 +322,31 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius);
   padding: 0.65rem 0.75rem;
-  background: var(--panel);
+  background: rgba(0, 0, 0, 0.28);
   color: #fff;
   font-family: var(--font-mono);
   font-size: 0.9rem;
+}
+
+.cron-input::placeholder,
+.regex-text::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+  opacity: 1;
+}
+
+.cron-input:focus,
+.regex-text:focus {
+  outline: 1px solid rgba(125, 211, 199, 0.55);
+  border-color: rgba(125, 211, 199, 0.45);
+}
+
+select.cron-input {
+  cursor: pointer;
+}
+
+select.cron-input option {
+  background: #0a5557;
+  color: #fff;
 }
 
 .regex-text {
@@ -366,9 +392,215 @@
   gap: 0.3rem;
 }
 
+.cron-chip.is-on,
 .regex-flag.is-on {
   background: rgba(125, 211, 199, 0.18);
   border-color: rgba(125, 211, 199, 0.4);
+}
+
+.util-card {
+  width: min(680px, 100%);
+  padding: 0.9rem 1rem;
+}
+
+.util-card h1 {
+  margin: 0 0 0.3rem;
+  font-size: 1.25rem;
+}
+
+.util-card .cron-lead {
+  margin: 0 0 0.65rem;
+  font-size: 0.85rem;
+}
+
+.util-card .coming-soon-eyebrow {
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+}
+
+.util-card .cron-input,
+.util-card .regex-text {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.util-card .regex-text {
+  min-height: 72px;
+}
+
+.util-card .cron-actions {
+  margin: 0.4rem 0;
+  gap: 0.35rem;
+}
+
+.util-card .cron-actions .action-btn {
+  min-width: 96px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.util-card .live-clock {
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+}
+
+.util-card .cron-field {
+  padding: 0.35rem 0.4rem;
+}
+
+.util-card .cron-result {
+  margin-top: 0.55rem;
+  padding: 0.65rem 0.7rem;
+}
+
+.util-card .stopwatch-display {
+  margin: 0.15rem 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.util-card .case-grid {
+  margin-top: 0.55rem;
+  gap: 0.3rem;
+}
+
+.util-card .case-row {
+  padding: 0.4rem 0.55rem;
+}
+
+.util-card .ts-tabs {
+  margin: 0.2rem 0 0.55rem;
+}
+
+.util-card .ts-subhead {
+  margin: 0.75rem 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.live-clock {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+}
+
+.inline-field {
+  min-width: 140px;
+}
+
+.inline-field select {
+  width: 100%;
+  margin-top: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  padding: 0.45rem 0.55rem;
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.ts-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.85rem;
+}
+
+.ts-subhead {
+  margin: 1.1rem 0 0.55rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.eta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.stopwatch-display {
+  margin: 0.35rem 0 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #7dd3c7;
+}
+
+.sw-laps {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--tree-text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.sw-laps li {
+  margin-bottom: 0.25rem;
+}
+
+.case-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0.85rem;
+}
+
+.case-output {
+  margin: 0.35rem 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.case-grid {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.case-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 140px) 1fr;
+  gap: 0.55rem;
+  align-items: start;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  background: rgba(0, 0, 0, 0.16);
+  color: #fff;
+  cursor: pointer;
+}
+
+.case-row:hover {
+  border-color: rgba(125, 211, 199, 0.35);
+  background: rgba(125, 211, 199, 0.08);
+}
+
+.case-row span {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(125, 211, 199, 0.95);
+}
+
+.case-row code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.cron-result p {
+  margin: 0.25rem 0;
+  color: var(--tree-text);
 }
 
 .cron-result,
@@ -410,6 +642,75 @@
 
 .cron-field strong {
   font-family: var(--font-mono);
+}
+
+.cron-workspace .cron-lead,
+.cron-workspace .field > span,
+.cron-workspace .ts-subhead {
+  color: rgba(244, 255, 254, 0.88);
+}
+
+.cron-workspace .technique-label {
+  color: #7dd3c7;
+}
+
+.cron-workspace .cron-field {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cron-workspace .cron-field span {
+  color: rgba(125, 211, 199, 0.95);
+}
+
+.cron-workspace .cron-field strong {
+  color: #fff;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+.cron-workspace .cron-result,
+.cron-workspace .regex-preview,
+.cron-workspace .regex-matches {
+  background: #f7f8f9;
+  color: #1a1a1a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cron-workspace .cron-result .technique-label {
+  color: #0a6e6e;
+}
+
+.cron-workspace .cron-result .cron-description,
+.cron-workspace .cron-result p,
+.cron-workspace .case-output {
+  color: #1a1a1a;
+}
+
+html[data-theme='dark'] .cron-workspace .cron-result,
+html[data-theme='dark'] .cron-workspace .regex-preview,
+html[data-theme='dark'] .cron-workspace .regex-matches {
+  background: #252526;
+  color: #e8e8e8;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme='dark'] .cron-workspace .cron-result .technique-label {
+  color: #7dd3c7;
+}
+
+html[data-theme='dark'] .cron-workspace .cron-result .cron-description,
+html[data-theme='dark'] .cron-workspace .cron-result p,
+html[data-theme='dark'] .cron-workspace .case-output {
+  color: #e8e8e8;
+}
+
+.cron-workspace .status.ok {
+  color: #d8ffe6;
+}
+
+.cron-workspace .status.err {
+  color: #ffe0e0;
 }
 
 .regex-preview pre {

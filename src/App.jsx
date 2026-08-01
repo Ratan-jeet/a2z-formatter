@@ -47,6 +47,9 @@ import SqlWorkspace from './SqlWorkspace'
 import CronWorkspace from './CronWorkspace'
 import HashWorkspace from './HashWorkspace'
 import RegexWorkspace from './RegexWorkspace'
+import TimestampWorkspace from './TimestampWorkspace'
+import UuidWorkspace from './UuidWorkspace'
+import CaseWorkspace from './CaseWorkspace'
 import { navigateToTool, toolFromPath } from './toolRoutes'
 import './App.css'
 
@@ -62,6 +65,9 @@ const TOOLS = [
   { id: 'cron', label: 'Cron', ready: true },
   { id: 'hash', label: 'Hash', ready: true },
   { id: 'regex', label: 'Regex', ready: true },
+  { id: 'timestamp', label: 'Timestamp', ready: true },
+  { id: 'uuid', label: 'UUID / ULID', ready: true },
+  { id: 'case', label: 'Case', ready: true },
 ]
 
 const SAMPLE = `{
@@ -1350,6 +1356,12 @@ export default function App() {
         <HashWorkspace theme={theme} EditorPane={EditorPane} remember={remember} />
       ) : activeTool === 'regex' ? (
         <RegexWorkspace theme={theme} />
+      ) : activeTool === 'timestamp' ? (
+        <TimestampWorkspace theme={theme} />
+      ) : activeTool === 'uuid' ? (
+        <UuidWorkspace theme={theme} />
+      ) : activeTool === 'case' ? (
+        <CaseWorkspace theme={theme} />
       ) : (
         <main className="coming-soon">
           <div className="coming-soon-card">

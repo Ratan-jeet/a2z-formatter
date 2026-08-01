@@ -4,7 +4,7 @@ export const TOUR_STEPS = [
   {
     target: 'tour-tools-tabs',
     title: '1. Choose a tool',
-    body: 'Browse all A2Z tools from these tabs: formatters, Diff, Encode, Markdown, SQL, Cron, Hash, and Regex.',
+    body: 'Browse all A2Z tools from these tabs: formatters, Diff, Encode, Markdown, SQL, Cron, Hash, Regex, Timestamp, UUID/ULID, and Case.',
   },
   {
     target: 'tour-input',
@@ -37,8 +37,8 @@ const HOW_TO_SECTIONS = [
   {
     title: 'Quick start',
     items: [
-      'A2Z includes JSON, XML, YAML, JS/HTML/CSS, Diff, Encode, Markdown, SQL, Cron, Hash, and Regex.',
-      'Pick a tool tab in the header, or open a direct link like /xml, /yaml, /js, /markdown.',
+      'A2Z includes JSON, XML, YAML, JS/HTML/CSS, Diff, Encode, Markdown, SQL, Cron, Hash, Regex, Timestamp, UUID/ULID, and Case converter.',
+      'Pick a tool tab in the header, or open a direct link like /xml, /yaml, /js, /timestamp, /uuid, /case.',
       'Drag and drop a file onto an Input editor to load it.',
       'Markdown shows a live preview. Cron explains schedules. Hash digests text/files. Regex highlights matches.',
       'Click Sample (or paste) where available, then run the main action.',
@@ -63,7 +63,7 @@ const HOW_TO_SECTIONS = [
     items: [
       'Advanced → Code / Tree — browse Output as text or a tree.',
       'Advanced → Share Link — copies a URL that reloads your JSON.',
-      'Tool URLs — /json (home), /xml, /yaml, /js, /diff, /encode, /markdown, /sql, /cron, /hash, /regex.',
+      'Tool URLs — /json (home), /xml, /yaml, /js, /diff, /encode, /markdown, /sql, /cron, /hash, /regex, /timestamp, /uuid, /case.',
       'JSON guide — /json-formatter/ is the SEO landing page for “JSON formatter” searches.',
       'History — last 12 payloads saved in this browser.',
       'Dark / Light — editor theme preference is remembered.',
