@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy — A2Z Formatter</title>
+    <meta
+      name="description"
+      content="Privacy policy for A2Z Formatter. Formatting runs in your browser. We don’t upload your content to our servers."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Ratan-jeet" />
+    <link rel="canonical" href="https://a2z-formatter.vercel.app/privacy/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="google-adsense-account" content="ca-pub-4126644474658818" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0c6e70;
+        --bg-deep: #085456;
+        --ink: #f4fffe;
+        --muted: rgba(244, 255, 254, 0.78);
+        --accent: #7dd3c7;
+        --font: 'Outfit', system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', ui-monospace, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 90% 55% at 12% -10%, rgba(125, 211, 199, 0.28), transparent 55%),
+          radial-gradient(ellipse 70% 45% at 95% 20%, rgba(0, 0, 0, 0.25), transparent 50%),
+          linear-gradient(165deg, #0e8a8a 0%, var(--bg) 42%, var(--bg-deep) 100%);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .wrap {
+        width: min(720px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 1.25rem 0 2.5rem;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .brand-mark {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .brand-name {
+        color: #fff;
+        text-transform: lowercase;
+      }
+
+      .panel {
+        background: rgba(0, 0, 0, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 12px;
+        padding: 1.35rem 1.4rem 1.5rem;
+      }
+
+      h1 {
+        margin: 0 0 0.85rem;
+        font-size: clamp(1.5rem, 4vw, 1.85rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 1.02rem;
+      }
+
+      .foot {
+        margin-top: 1.75rem;
+        font-size: 0.8rem;
+        color: rgba(244, 255, 254, 0.55);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark">A2Z</span>
+          <span class="brand-name">formatter</span>
+        </a>
+        <a href="/">Back to tools</a>
+      </header>
+
+      <main class="panel">
+        <h1>Privacy</h1>
+        <p>
+          Formatting runs in your browser. We don’t upload your content to our servers.
+          Theme/history are stored only on your device. Third‑party ads (Google AdSense),
+          if shown, may use cookies or similar tech per Google’s policies.
+        </p>
+      </main>
+
+      <p class="foot">© 2026 A2Z Formatter. All rights reserved.</p>
+    </div>
+  </body>
+</html>

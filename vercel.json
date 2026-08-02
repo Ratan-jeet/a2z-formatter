@@ -4,11 +4,16 @@
       "source": "/json-formatter",
       "destination": "/json-formatter/",
       "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!json-formatter/?$|sitemap\\.xml$|robots\\.txt$|ads\\.txt$|googlef9b0caf7728e31a8\\.html$).*)",
+      "source": "/((?!json-formatter/?$|privacy/?$|sitemap\\.xml$|robots\\.txt$|ads\\.txt$|googlef9b0caf7728e31a8\\.html$).*)",
       "destination": "/index.html"
     }
   ]

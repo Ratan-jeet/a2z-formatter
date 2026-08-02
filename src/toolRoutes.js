@@ -47,7 +47,7 @@ export function toolFromPath(pathname = window.location.pathname) {
   const raw = pathname.replace(/\/+$/, '') || '/'
   const segment = raw === '/' ? '' : raw.slice(1).toLowerCase()
   // SEO / static marketing pages — do not map into the JSON tool workspace
-  if (segment === 'json-formatter') return 'json'
+  if (segment === 'json-formatter' || segment === 'privacy') return null
   return ALIASES[segment] || 'json'
 }
 

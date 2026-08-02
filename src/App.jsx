@@ -642,7 +642,7 @@ export default function App() {
   const [showHowTo, setShowHowTo] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [tourStep, setTourStep] = useState(null)
-  const [activeTool, setActiveTool] = useState(() => toolFromPath())
+  const [activeTool, setActiveTool] = useState(() => toolFromPath() || 'json')
   const fileInputRef = useRef(null)
 
   const selectTool = useCallback((id, { replace = false } = {}) => {
@@ -685,8 +685,12 @@ export default function App() {
   }, [theme])
 
   useEffect(() => {
-    navigateToTool(toolFromPath(), { replace: true })
-    const onPop = () => setActiveTool(toolFromPath())
+    const tool = toolFromPath()
+    if (tool) navigateToTool(tool, { replace: true })
+    const onPop = () => {
+      const next = toolFromPath()
+      if (next) setActiveTool(next)
+    }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
   }, [])
@@ -1547,6 +1551,10 @@ export default function App() {
       )}
 
       <footer className="site-footer">
+        <span>© 2026 A2Z Formatter. All rights reserved.</span>
+        <span aria-hidden="true">·</span>
+        <a href="/privacy/">Privacy</a>
+        <span aria-hidden="true">·</span>
         <a href="/json-formatter/">JSON Formatter guide</a>
         <span aria-hidden="true">·</span>
         <a href="/sitemap.xml">Sitemap</a>
